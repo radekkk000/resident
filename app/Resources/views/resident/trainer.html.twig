@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+       <div class="row">
+         <div class="col-md-2" id="column1"><a href="/resident/web/"><h1 style="color: black;">Main</h1></a></div>
+         <div class="col-md-2" id="column2"><a href="/resident/web/user"><h1 style="color: black;">User</h1></a></div>
+       </div>
+     <div class="table-responsive">
+        <span>Add your training ability for participants</span>
+
+         {{ form_start(form) }}
+         {{ form_widget(form) }}
+         {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

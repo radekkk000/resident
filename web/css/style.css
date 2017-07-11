@@ -1,0 +1,23 @@
+.main {
+    margin-left: 17%;
+    margin-right: 5%;
+    margin-top: 1%
+}
+
+.bear {
+    width: 86%;
+}
+
+@media(max-width: 968px)
+{
+    h1 {
+        font-size: 0.9em;
+    }
+}
+
+@media(max-width: 480px)
+{
+     h1 {
+        font-size: 0.7em;
+    }
+}
