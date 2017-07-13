@@ -12,7 +12,6 @@ use AppBundle\Entity\Category;
 use AppBundle\Form\TrainingType;
 use AppBundle\Entity\StrategyContext;
 use AppBundle\Entity\Training;
-use AppBundle\Entity\Map;
 
 
 class ResidentController extends Controller
@@ -71,12 +70,20 @@ class ResidentController extends Controller
 
     public function gmapAction()
     {
+
+        //TO DO wydzielic jednostki do const K i N oraz dodac komentarze do metod, autora i opis klasy
+
         $distanceInKilometers = 0.5;
         $startPointLattitude = 51.741;
         $startPointLongtitude = 19.431;
-
         $point = new PointsRange($distanceInKilometers, $startPointLattitude, $startPointLongtitude);
-        $points = $point->showPointsInRange();
+
+        $quantity = 100;
+        $latitudeRangeMin = 51.731;
+        $lattitudeRangeMax = 51.753;
+        $longtitudeRangeMin = 19.416;
+        $longtitudeRangeMax = 19.448;
+        $points = $point->showPointsInRange($quantity, $latitudeRangeMin, $lattitudeRangeMax, $longtitudeRangeMin, $longtitudeRangeMax);
 
         return $this->render('resident/gmap.html.twig', array('points' => $points));
     }
