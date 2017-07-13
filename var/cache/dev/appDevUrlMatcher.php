@@ -119,11 +119,6 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array (  '_controller' => 'AppBundle\\Controller\\ResidentController::gmapAction',  '_route' => 'app_resident_gmap',);
         }
 
-        // app_resident_olxlogin
-        if ($pathinfo === '/olxlogin') {
-            return array (  '_controller' => 'AppBundle\\Controller\\ResidentController::olxloginAction',  '_route' => 'app_resident_olxlogin',);
-        }
-
         // app_resident_user
         if ($pathinfo === '/user') {
             return array (  '_controller' => 'AppBundle\\Controller\\ResidentController::userAction',  '_route' => 'app_resident_user',);
