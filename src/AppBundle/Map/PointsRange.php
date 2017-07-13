@@ -39,7 +39,7 @@ class PointsRange {
         }
     }
 
-    
+
 
     public function showPointsInRange() {
         //main point from which we will measure the distance
