@@ -4,9 +4,13 @@ namespace AppBundle\Map;
 
 class PointsRange {
 
+    const OUT_OF_RANGE_ICON = "img/marker1.png";
+    const IN_RANGE_ICON = "img/marker2.png";
+    const MAIN_ICON = "img/main.png";
     private $distanceInKilometers;
     private $mainPointLattitude;
     private $mainPointLongtitude;
+
 
     function __construct($distanceInKilometers, $mainPointLattitude, $mainPointLongtitude) {
         $this->distanceInKilometers = $distanceInKilometers;
@@ -39,42 +43,46 @@ class PointsRange {
         }
     }
 
+    public function checkDistanceFromMainPoint($lattitude, $longtitude)
+    {
+        if ($this->calculateDistance($lattitude, $longtitude,$this->mainPointLattitude, $this->mainPointLongtitude, 'K') >= $this->distanceInKilometers)
+        {
+            $icon = PointsRange::OUT_OF_RANGE_ICON;
+        }
+        else
+        {
+            $icon = PointsRange::IN_RANGE_ICON;
+        }
 
+        return $icon;
+    }
 
-    public function showPointsInRange() {
-        //main point from which we will measure the distance
+    public function generatePoints($quantity, $latitudeRangeMin, $lattitudeRangeMax, $longtitudeRangeMin, $longtitudeRangeMax)
+    {
         $points[0] = array(
-        'lat' => $this->mainPointLattitude,
-        'lng' => $this->mainPointLongtitude,
-        'label' => 'main',
-        'icon' => 'img/main.png'
+            'lat' => $this->mainPointLattitude,
+            'lng' => $this->mainPointLongtitude,
+            'label' => 'MAIN',
+            'icon' => PointsRange::MAIN_ICON,
         );
 
-        //sample points
-        $userX = 51.751;
-        $userY = 19.426;
-
-        for($i = 1; $i < 35; $i++) {
-
-            $userX = $this->generateRandomFloat(51.731, 51.753);
-            $userY = $this->generateRandomFloat(19.416, 19.448);
-
-            if ($this->calculateDistance($userX, $userY,$this->mainPointLattitude, $this->mainPointLongtitude, 'K') >= $this->distanceInKilometers)
-            {
-                $icon = 'img/marker1.png';
-            }
-            else
-            {
-                $icon = 'img/marker2.png';
-            }
+        for($i = 1; $i < $quantity; $i++) {
+            $lattitude = $this->generateRandomFloat($latitudeRangeMin, $lattitudeRangeMax);
+            $longtitude = $this->generateRandomFloat($longtitudeRangeMin, $longtitudeRangeMax);
 
             $points[$i] = array(
-                'lat' => $userX,
-                'lng' => $userY,
+                'lat' => $lattitude,
+                'lng' => $longtitude,
                 'label' => $i,
-                'icon' => $icon,
+                'icon' => $this->checkDistanceFromMainPoint($lattitude, $longtitude),
             );
         }
+
+        return $points;
+    }
+
+    public function showPointsInRange($quantity, $latitudeRangeMin, $lattitudeRangeMax, $longtitudeRangeMin, $longtitudeRangeMax) {
+        $points = $this->generatePoints($quantity, $latitudeRangeMin, $lattitudeRangeMax, $longtitudeRangeMin, $longtitudeRangeMax);
 
         return $points;
     }
