@@ -74,12 +74,12 @@ class ResidentController extends Controller
     {
         $distance = 0.5;
 
-        $startPoint = new Point();
-        $startPoint->setLattitude(51.741);
-        $startPoint->setLongtitude(19.431);
-        $startPoint->setType('MAIN');
+        $mainPoint = new Point();
+        $mainPoint->setLattitude(51.741);
+        $mainPoint->setLongtitude(19.431);
+        $mainPoint->setType('MAIN');
 
-        $board = new Board($distance, $startPoint);
+        $board = new Board($distance, $mainPoint);
         $pointAmount = 100;
 
         $range = new Range();
@@ -87,7 +87,24 @@ class ResidentController extends Controller
         $range->setLattitudeMax(51.753);
         $range->setLongtitudeMin(19.416);
         $range->setLongtitudeMax(19.448);
-        $points = $board->showBoard($pointAmount, $range);
+
+        $board->generateBoard($pointAmount, $range);
+
+        $points[0] = array(
+            'lat' => $board->getMainPoint()->getLattitude(),
+            'lng' => $board->getMainPoint()->getLongtitude(),
+            'label' => $board->getMainPoint()->getLabel(),
+            'icon' => $board->getMainPoint()->getType(),
+        );
+
+        for($i = 1; $i < $pointAmount; $i++) {
+            $points[$i] = array(
+                'lat' => $board->getPoint($i)->getLattitude(),
+                'lng' => $board->getPoint($i)->getLongtitude(),
+                'label' => $board->getPoint($i)->getLabel(),
+                'icon' => $board->getPoint($i)->getType(),
+            );
+        }
 
         return $this->render('resident/gmap.html.twig', array('points' => $points));
     }
