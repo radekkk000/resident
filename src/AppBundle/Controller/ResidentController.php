@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Map\PointsRange;
+use AppBundle\Map\Range;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,8 @@ use AppBundle\Entity\Category;
 use AppBundle\Form\TrainingType;
 use AppBundle\Entity\StrategyContext;
 use AppBundle\Entity\Training;
-
+use AppBundle\Map\Point;
+use AppBundle\Map\Board;
 
 class ResidentController extends Controller
 {
@@ -59,6 +60,7 @@ class ResidentController extends Controller
      * @Route("/")
      */
 
+
     public function homepageAction()
     {
         return $this->render('resident/index.html.twig');
@@ -70,20 +72,22 @@ class ResidentController extends Controller
 
     public function gmapAction()
     {
+        $distance = 0.5;
 
-        //TO DO wydzielic jednostki do const K i N oraz dodac komentarze do metod, autora i opis klasy
+        $startPoint = new Point();
+        $startPoint->setLattitude(51.741);
+        $startPoint->setLongtitude(19.431);
+        $startPoint->setType('MAIN');
 
-        $distanceInKilometers = 0.5;
-        $startPointLattitude = 51.741;
-        $startPointLongtitude = 19.431;
-        $point = new PointsRange($distanceInKilometers, $startPointLattitude, $startPointLongtitude);
+        $board = new Board($distance, $startPoint);
+        $pointAmount = 100;
 
-        $quantity = 100;
-        $latitudeRangeMin = 51.731;
-        $lattitudeRangeMax = 51.753;
-        $longtitudeRangeMin = 19.416;
-        $longtitudeRangeMax = 19.448;
-        $points = $point->showPointsInRange($quantity, $latitudeRangeMin, $lattitudeRangeMax, $longtitudeRangeMin, $longtitudeRangeMax);
+        $range = new Range();
+        $range->setLattitudeMin(51.731);
+        $range->setLattitudeMax(51.753);
+        $range->setLongtitudeMin(19.416);
+        $range->setLongtitudeMax(19.448);
+        $points = $board->showBoard($pointAmount, $range);
 
         return $this->render('resident/gmap.html.twig', array('points' => $points));
     }
