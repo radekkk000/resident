@@ -22,6 +22,9 @@ class Range
         $this->lattitudeMin = $lattitudeMin;
     }
 
+
+    private $lattitudeMax;
+
     /**
      * @return mixed
      */
@@ -30,6 +33,7 @@ class Range
         return $this->lattitudeMax;
     }
 
+
     /**
      * @param mixed $lattitudeMax
      */
@@ -37,6 +41,8 @@ class Range
     {
         $this->lattitudeMax = $lattitudeMax;
     }
+
+    private $longtitudeMin;
 
     /**
      * @return mixed
@@ -54,6 +60,8 @@ class Range
         $this->longtitudeMin = $longtitudeMin;
     }
 
+    private $longtitudeMax;
+
     /**
      * @return mixed
      */
@@ -69,7 +77,7 @@ class Range
     {
         $this->longtitudeMax = $longtitudeMax;
     }
-    private $lattitudeMax;
-    private $longtitudeMin;
-    private $longtitudeMax;
+
+
+
 }

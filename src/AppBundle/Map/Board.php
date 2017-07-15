@@ -2,86 +2,54 @@
 
 namespace AppBundle\Map;
 use AppBundle\Map\Point;
+use AppBundle\Map\CoordinatesCalculation;
 
 class Board
 {
     private $distance;
-    private $startPoint;
+    private $mainPoint;
+    private $point;
 
     function __construct($distance, Point $startPoint) {
-          $this->distance = $distance;
-          $this->startPoint = $startPoint;
+        $this->distance = $distance;
+        $this->mainPoint = $startPoint;
     }
 
-    private function generateRandomFloat($min,$max) {
-
-        return ($min+lcg_value()*(abs($max-$min)));
+    /**
+     * @return mixed
+     */
+    public function getPoint($i) {
+        return $this->point[$i];
     }
 
-    private function calculateDistanceBetweenPoints(Point $pointEnd, Point $startPoint, $unit) {
-        $theta = $pointEnd->getLongtitude() - $startPoint->getLongtitude();
-        $dist = sin(deg2rad($pointEnd->getLattitude())) * sin(deg2rad($startPoint->getLattitude())) + cos(deg2rad($pointEnd->getLattitude())) * cos(deg2rad($startPoint->getLattitude())) * cos(deg2rad($theta));
-        $dist = acos($dist);
-        $dist = rad2deg($dist);
-        $miles = $dist * 60 * 1.1515;
-        $unit = strtoupper($unit);
-
-        if ($unit == "K") {
-            return ($miles * 1.609344);
-        } elseif ($unit == "N") {
-            return ($miles * 0.8684);
-        } else {
-            return $miles;
-        }
-    }
-
-    public function checkDistanceFromMainPoint(Point $point)
-    {
-        if ($this->calculateDistanceBetweenPoints($point,$this->startPoint,'K') >= $this->distance)
-        {
-            return 'OUT_OF_RANGE';
-        }
-        else
-        {
-            return 'IN_RANGE';
-        }
+    /**
+     * @return \AppBundle\Map\Point
+     */
+    public function getMainPoint(): \AppBundle\Map\Point {
+        return $this->mainPoint;
     }
 
     public function generatePoints($pointAmount, Range $range) {
-        $points[0] = array(
-            'lat' => $this->startPoint->getLattitude(),
-            'lng' => $this->startPoint->getLongtitude(),
-            'label' => $this->startPoint->getLabel(),
-            'icon' => $this->startPoint->getType(),
-        );
 
         for($i = 1; $i < $pointAmount; $i++) {
-            $lattitudeRandom = $this->generateRandomFloat($range->getLattitudeMin(), $range->getLattitudeMax());
-            $longtitudeRandom = $this->generateRandomFloat($range->getLongtitudeMin(), $range->getLongtitudeMax());
+            $lattitudeRandom = CoordinatesCalculation::generateRandomFloat($range->getLattitudeMin(), $range->getLattitudeMax());
+            $longtitudeRandom = CoordinatesCalculation::generateRandomFloat($range->getLongtitudeMin(), $range->getLongtitudeMax());
 
             $point = new Point();
             $point->setLongtitude($longtitudeRandom);
             $point->setLattitude($lattitudeRandom);
             $point->setLabel($i);
-            $point->setType($this->checkDistanceFromMainPoint($point));
+            $calculation = new CoordinatesCalculation($point, $this->mainPoint, CoordinatesCalculation::UNIT_KILOMETERS, $this->mainPoint);
+            $point->setType($calculation->checkIfPointIsInMainPointDistance($point, $this->distance));
 
-            $points[$i] = array(
-                'lat' => $point->getLattitude(),
-                'lng' => $point->getLongtitude(),
-                'label' => $point->getLabel(),
-                'icon' => $point->getType(),
-            );
-
+            $this->point[$i] = $point;
         }
-
-        return $points;
     }
 
-    public function showBoard($pointAmount, $range) {
+    public function generateBoard($pointAmount, $range) {
         $points = $this->generatePoints($pointAmount, $range);
 
         return $points;
     }
-
 
 }

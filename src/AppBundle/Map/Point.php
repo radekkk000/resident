@@ -4,6 +4,10 @@ namespace AppBundle\Map;
 
 class Point {
 
+    const OUT_OF_RANGE = "OUT_OF_RANGE";
+    const IN_RANGE = "IN_RANGE";
+    const MAIN = "MAIN";
+
     private $lattitude;
 
     /**
@@ -56,21 +60,21 @@ class Point {
      */
     public function setType($type)
     {
-        if($type == 'IN_RANGE')
+        if($type == Point::IN_RANGE)
         {
-            $icon = new Icon('IN_RANGE');
+            $icon = new Icon(Point::IN_RANGE);
             $this->type = $icon->getPath();
         }
 
-        if($type == 'OUT_OF_RANGE')
+        if($type == Point::OUT_OF_RANGE)
         {
-            $icon = new Icon('OUT_OF_RANGE');
+            $icon = new Icon(Point::OUT_OF_RANGE);
             $this->type = $icon->getPath();
         }
 
-        if($type == 'MAIN')
+        if($type == Point::MAIN)
         {
-            $icon = new Icon('MAIN');
+            $icon = new Icon(Point::MAIN);
             $this->type = $icon->getPath();
         }
 
