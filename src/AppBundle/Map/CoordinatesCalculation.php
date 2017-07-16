@@ -33,7 +33,8 @@ class CoordinatesCalculation {
         $dist = rad2deg($dist);
         $miles = $dist * 60 * 1.1515;
         $unit = strtoupper($this->unit);
-
+switch(){}
+        
         if ($unit == CoordinatesCalculation::UNIT_KILOMETERS) {
             return ($miles * 1.609344);
         } elseif ($this->unit == CoordinatesCalculation::UNIT_MILES) {
@@ -43,7 +44,7 @@ class CoordinatesCalculation {
         }
     }
 
-    public function checkIfPointIsInMainPointDistance(Point $point, $distance) {
+    public function isCorrectDistance(Point $point, $distance) {
         if ( ($this->calculateDistanceBetweenStartEndPoints() ) >= $distance)  {
             return CoordinatesCalculation::OUT_OF_RANGE;
         }
