@@ -80,6 +80,7 @@ class ResidentController extends Controller
         $mainPoint->setType('MAIN');
 
         $board = new Board($distance, $mainPoint);
+        //$pointAmount = 2;
         $pointAmount = 100;
 
         $range = new Range();

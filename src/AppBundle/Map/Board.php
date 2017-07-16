@@ -6,6 +6,10 @@ use AppBundle\Map\CoordinatesCalculation;
 
 class Board
 {
+    const DATABASE_STRATEGY = "database_strategy";
+    const RANDOM_STRATEGY = "random_strategy";
+    const FILE_STRATEGY = "file_strategy";
+
     private $distance;
     private $mainPoint;
     private $point;
@@ -29,26 +33,14 @@ class Board
         return $this->mainPoint;
     }
 
-    public function generatePoints($pointAmount, Range $range) {
-
-        for($i = 1; $i < $pointAmount; $i++) {
-            $lattitudeRandom = CoordinatesCalculation::generateRandomFloat($range->getLattitudeMin(), $range->getLattitudeMax());
-            $longtitudeRandom = CoordinatesCalculation::generateRandomFloat($range->getLongtitudeMin(), $range->getLongtitudeMax());
-
-            $point = new Point();
-            $point->setLongtitude($longtitudeRandom);
-            $point->setLattitude($lattitudeRandom);
-            $point->setLabel($i);
-            $calculation = new CoordinatesCalculation($point, $this->mainPoint, CoordinatesCalculation::UNIT_KILOMETERS, $this->mainPoint);
-            $point->setType($calculation->checkIfPointIsInMainPointDistance($point, $this->distance));
-
-            $this->point[$i] = $point;
-        }
+    public function generatePoints($pointAmount, Range $range, $strategy) {
+        $strategyContextRandom = new StrategyContext($strategy);
+        $this->point = $strategyContextRandom->generatePoints($pointAmount, $range, $this->mainPoint, $this->distance);
     }
 
     public function generateBoard($pointAmount, $range) {
-        $points = $this->generatePoints($pointAmount, $range);
-
+        $points = $this->generatePoints($pointAmount, $range, Board::RANDOM_STRATEGY);
+        //$points = $this->generatePoints($pointAmount, $range, Board::FILE_STRATEGY);
         return $points;
     }
 
