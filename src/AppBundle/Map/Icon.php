@@ -20,12 +20,10 @@ class Icon {
         if ($type == Icon::IN_RANGE) {
             $this->path = Icon::IN_RANGE_ICON;
         }
-
-        if ($type == Icon::MAIN) {
+else if(($type == Icon::MAIN) {
             $this->path = Icon::MAIN_ICON;
         }
-
-        if ($type == Icon::OUT_OF_RANGE) {
+else if ($type == Icon::OUT_OF_RANGE) {
             $this->path = Icon::OUT_OF_RANGE_ICON;
         }
     }
