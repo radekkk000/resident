@@ -9,7 +9,7 @@ class StrategyContext {
     const FILE_STRATEGY = "file_strategy";
 
     private $strategy = NULL;
-
+// a to nie jest fabryka?
     public function __construct($strategy_ind_id) {
         switch ($strategy_ind_id) {
             case StrategyContext::DATABASE_STRATEGY:
