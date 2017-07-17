@@ -3,7 +3,8 @@
 namespace AppBundle\Map;
 
 class Point {
-
+//TODO wszędzie const z takimi samymi wartośćiami jak w innych miejscach należy to wydzielić do np: klasy statycznej,
+    //nie można powielać tego to jest tylko do odczytu 
     const OUT_OF_RANGE = "OUT_OF_RANGE";
     const IN_RANGE = "IN_RANGE";
     const MAIN = "MAIN";
