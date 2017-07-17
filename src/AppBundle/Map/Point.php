@@ -60,24 +60,8 @@ class Point {
      */
     public function setType($type)
     {
-        if($type == Point::IN_RANGE)
-        {
-            $icon = new Icon(Point::IN_RANGE);
-            $this->type = $icon->getPath();
-        }
-
-        if($type == Point::OUT_OF_RANGE)
-        {
-            $icon = new Icon(Point::OUT_OF_RANGE);
-            $this->type = $icon->getPath();
-        }
-
-        if($type == Point::MAIN)
-        {
-            $icon = new Icon(Point::MAIN);
-            $this->type = $icon->getPath();
-        }
-
+        $icon = new Icon($type);
+        $this->type = $icon->getPath();
     }
 
     private $label;

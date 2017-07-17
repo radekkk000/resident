@@ -43,7 +43,7 @@ class CoordinatesCalculation {
         }
     }
 
-    public function checkIfPointIsInMainPointDistance(Point $point, $distance) {
+    public function isCorrectDistance(Point $point, $distance) {
         if ( ($this->calculateDistanceBetweenStartEndPoints() ) >= $distance)  {
             return CoordinatesCalculation::OUT_OF_RANGE;
         }

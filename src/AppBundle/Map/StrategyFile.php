@@ -17,7 +17,7 @@ class StrategyFile implements \AppBundle\Map\StrategyInterface {
         $point->setLattitude($lattitudeRandom);
         $point->setLabel(1);
         $calculation = new CoordinatesCalculation($point, $mainPoint, CoordinatesCalculation::UNIT_KILOMETERS, $mainPoint);
-        $point->setType($calculation->checkIfPointIsInMainPointDistance($point, $distance));
+        $point->setType($calculation->isCorrectDistance($point, $distance));
         $points[1] = $point;
 
         return $points;

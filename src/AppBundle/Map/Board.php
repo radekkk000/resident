@@ -14,16 +14,16 @@ class Board
     private $mainPoint;
     private $point;
 
-    function __construct($distance, Point $startPoint) {
+    function __construct($distance, Point $start) {
         $this->distance = $distance;
-        $this->mainPoint = $startPoint;
+        $this->mainPoint = $start;
     }
 
     /**
      * @return mixed
      */
-    public function getPoint($i) {
-        return $this->point[$i];
+    public function getPoint($index) {
+        return $this->point[$index];
     }
 
     /**
@@ -34,8 +34,8 @@ class Board
     }
 
     public function generatePoints($pointAmount, Range $range, $strategy) {
-        $strategyContextRandom = new StrategyContext($strategy);
-        $this->point = $strategyContextRandom->generatePoints($pointAmount, $range, $this->mainPoint, $this->distance);
+        $context = new StrategyContext($strategy);
+        $this->point = $context->generatePoints($pointAmount, $range, $this->mainPoint, $this->distance);
     }
 
     public function generateBoard($pointAmount, $range) {
